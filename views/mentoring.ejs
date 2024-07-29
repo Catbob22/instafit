@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Mentoring</title>
+</head>
+    <style>
+        .navbar-nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 0 15px;
+        }
+
+        .navbar-right {
+            flex: 0;
+        }
+    </style>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/images/IF.png" alt="InstaFit Logo" style="width:80px;" class="rounded-pill">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto fs-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/community">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/mentoring">Mentoring</a>
+                    </li>
+                </ul>
+                <form class="d-flex" action="/search" method="GET">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Search users" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <div class="navbar-right">
+                    <a href="/upload" class="btn btn-primary ms-auto fs-4">Post</a>
+                    <!-- Register Button -->
+                    <a href="/register" class="btn btn-outline-primary">Register</a>
+                    <!-- Login Button -->
+                    <a href="/login" class="btn btn-outline-primary">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Mentoring</h1>
+
+        <div class="row">
+            <% if (mentors && mentors.length) { %>
+                <% mentors.forEach(function(mentor) { %>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <img src="/images/<%= mentor.profile_image %>" class="card-img-top" alt="<%= mentor.username %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= mentor.username %></h5>
+                                <p class="card-text"><%= mentor.expertise %></p>
+                                <p class="card-text"><%= mentor.bio %></p>
+                                <a href="/mentoring/request/<%= mentor.mentor_id %>" class="btn btn-primary">Request Mentorship</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No mentors available.</p>
+            <% } %>
+        </div>
+
+        <h2 class="mt-5">Mentorship Requests</h2>
+        <div class="row">
+            <% if (requests && requests.length) { %>
+                <% requests.forEach(function(request) { %>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= request.mentor_username %></h5>
+                                <p class="card-text"><%= new Date(request.request_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></p>
+                                <p class="card-text"><%= request.status %></p>
+                                <form action="/mentoring/cancel" method="POST">
+                                    <input type="hidden" name="request_id" value="<%= request.request_id %>">
+                                    <button type="submit" class="btn btn-danger">Cancel Request</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No mentorship requests.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center py-4">
+        <div class="container">
+            <p>&copy; 2024 InstaFit. Made by Yang Yuan.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>
