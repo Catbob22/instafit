@@ -33,10 +33,14 @@ const checkAuth = (req, res, next) => {
 
 // Create MySQL connection
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'instafit'
+    // host: 'localhost',
+    // user: 'root',
+    // password: '',
+    // database: 'instafit'
+    host: 'sql.freedb.tech',
+    user: 'freedb_23002655',
+    password: '6Z7ES&2mZDM4c3g',
+    database: 'freedb_instafit'
 });
 
 connection.connect((err) => {
